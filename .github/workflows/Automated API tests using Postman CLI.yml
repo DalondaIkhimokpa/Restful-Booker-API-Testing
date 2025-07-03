@@ -1,44 +1,17 @@
-name: API Tests
-on: [push]
+name: Automated API tests using Postman CLI
+
+on: push
 
 jobs:
-  newman_tests:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Install Newman
-      run: npm install -g newman
-      
-    - name: Run Newman Tests
-      run: |
-        # Get auth token first
-        TOKEN=$(curl -s -X POST \
-          https://restful-booker.herokuapp.com/auth \
-          -H "Content-Type: application/json" \
-          -d '{"username":"admin","password":"password123"}' | jq -r '.token')
-        
-        # Run collection with token
-        newman run "collections/Restful Booker_Booking API.postman_collection.json" \
-          --env-var "auth_token=$TOKEN" \
-          --reporters cli,htmlextra \
-          --reporter-htmlextra-export reports/report.html
-
-  postman_cli_tests:
-    needs: newman_tests
+  automated-api-tests:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Install Postman CLI
-      run: |
-        powershell -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://dl-cli.pstmn.io/install/win64.ps1'))"
-      
-    - name: Run Postman CLI Tests
-      env:
-        POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
-        AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
-      run: |
-        postman login --with-api-key $env:POSTMAN_API_KEY
-        postman collection run "46202318-64c42902-9251-4dde-8565-069da344a26c" \
-          --env-var "auth_token=$env:AUTH_TOKEN"
+      - uses: actions/checkout@v4
+      - name: Install Postman CLI
+        run: |
+          powershell.exe -NoProfile -InputFormat None -ExecutionPolicy AllSigned -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://dl-cli.pstmn.io/install/win64.ps1'))"
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Run API tests
+        run: |
+          postman collection run "46202318-64c42902-9251-4dde-8565-069da344a26c"
