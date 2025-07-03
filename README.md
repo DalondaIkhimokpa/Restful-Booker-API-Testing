@@ -1,4 +1,5 @@
 # Restful Booker API Tests
+[![Basic Collection Test](https://github.com/DalondaIkhimokpa/Restful-Booker-API-Testing/actions/workflows/API%20Test.yml/badge.svg)](https://github.com/DalondaIkhimokpa/Restful-Booker-API-Testing/actions/workflows/API%20Test.yml)
 
 Automated API tests for Restful Booker platform using Postman and Newman.
 
@@ -30,18 +31,18 @@ Reports will be generated in `reports/` folder.
 
 ## Project Structure
 restful-booker-tests/
-├── collections/
-│   ├── restful-booker.postman_collection.json
-├── environments/
-│   ├── restful-booker.postman_environment.json
-├── data/
-│   ├── test-data.json
-├── reports/
-├── screenshots/
-├── LICENSE
-├── README.md
-├── package.json
-└── .gitignore
+-├── collections/
+-│   ├── restful-booker.postman_collection.json
+-├── environments/
+-│   ├── restful-booker.postman_environment.json
+-├── data/
+-│   ├── test-data.json
+-├── reports/
+-├── screenshots/
+-├── LICENSE
+-├── README.md
+-├── package.json
+-└── .gitignore
 
 - **Base URL**: `https://restful-booker.herokuapp.com`
 - **Authentication**: Token-based or Basic Auth
