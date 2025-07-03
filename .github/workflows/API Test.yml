@@ -1,20 +1,24 @@
 name: API Tests
-
 on: [push]
-
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: '14'
-    - run: npm install
-    - run: npm run test-with-report
-    - name: Upload report
+    
+    - name: Verify collection exists
+      run: |
+        echo "Current directory: $(pwd)"
+        ls -la collections/
+        
+    - name: Install Newman
+      run: npm install -g newman
+      
+    - name: Run tests (with escaped spaces)
+      run: newman run "collections/Restful\ Booker_Booking\ API.postman_collection.json"
+      
+    - name: Upload results
       uses: actions/upload-artifact@v4
       with:
-        name: api-test-report
-        path: reports/
+        name: test-results
+        path: newman/*.json
