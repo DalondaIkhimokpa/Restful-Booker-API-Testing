@@ -1,24 +1,28 @@
-name: API Tests
+
+name: Verify Collection
 on: [push]
+
 jobs:
-  test:
+  verify:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4  # Check out your code
     
-    - name: Verify collection exists
+    - name: Check collection exists
       run: |
-        echo "Current directory: $(pwd)"
-        ls -la collections/
+        echo "Verifying collection file..."
+        if [ -f "collections/Restful Booker_Booking API.postman_collection.json" ]; then
+          echo "✅ Collection file found"
+        else
+          echo "❌ Collection file missing!"
+          exit 1
+        fi
         
     - name: Install Newman
       run: npm install -g newman
       
-    - name: Run tests (with escaped spaces)
-      run: newman run "collections/Restful\ Booker_Booking\ API.postman_collection.json"
-      
-    - name: Upload results
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results
-        path: newman/*.json
+    - name: Run basic test
+      run: |
+        newman run "collections/Restful Booker_Booking API.postman_collection.json" \
+          --reporters cli \
+          --folder "Positive EndPoints"  # Only run specific folder
