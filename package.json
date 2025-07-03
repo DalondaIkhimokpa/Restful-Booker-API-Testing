@@ -1,0 +1,12 @@
+{
+  "name": "restful-booker-tests",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "newman run \"collections/Restful Booker_Booking API.postman_collection.json\"",
+    "report": "newman run \"collections/Restful Booker_Booking API.postman_collection.json\" -r htmlextra --reporter-htmlextra-export reports/report.html"
+  },
+  "devDependencies": {
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.22.11"
+  }
+}

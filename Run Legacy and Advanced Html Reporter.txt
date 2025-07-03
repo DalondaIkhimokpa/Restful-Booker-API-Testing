@@ -1,0 +1,19 @@
+//Run Legacy and Advanced Html Reporter
+
+//1.First, install the legacy HTML reporter:
+
+cmd
+npm install -g newman-reporter-html
+
+//2.Then run:
+
+cmd
+newman run "collections\Restful Booker_Booking API.postman_collection.json" -r html,htmlextra --reporter-html-export "reports\legacy_report.html" --reporter-htmlextra-export "reports\advanced_report.html"
+
+//Run Htmlextra Reporter Only
+
+newman run "collections\Restful Booker_Booking API.postman_collection.json" -r htmlextra --reporter-htmlextra-export "reports\report.html" && start reports\report.html
+
+//To Open Existing Htmlextra Reporter
+
+start "" "reports\report.html"
